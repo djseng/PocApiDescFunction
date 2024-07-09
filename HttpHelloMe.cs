@@ -19,7 +19,6 @@ public class HttpHelloMe
     }
 
     [OpenApiOperation(operationId: "greeting", tags: ["greeting"], Summary = "Greetings", Description = "This shows a welcome message.", Visibility = OpenApiVisibilityType.Important)]
-    [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Hello), Description = "Returns a greeting message.")]
     [Function(nameof(HttpHelloMe))]
     public IActionResult Run(
