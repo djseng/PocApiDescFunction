@@ -3,6 +3,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 
 namespace PocApiDescFunction;
@@ -17,6 +18,7 @@ public class HttpHelloMe
     }
 
     [Function(nameof(HttpHelloMe))]
+    [OpenApiOperation(operationId: "Greeting", tags: new[] { "name" })]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get",
             Route = "hello/{name:alpha}")]
