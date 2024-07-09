@@ -3,8 +3,6 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 
 namespace PocApiDescFunction;
@@ -18,8 +16,6 @@ public class HttpHelloMe
         _logger = logger;
     }
 
-    [OpenApiOperation(operationId: "greeting", tags: ["greeting"], Summary = "Greetings", Description = "This shows a welcome message.", Visibility = OpenApiVisibilityType.Important)]
-    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Hello), Description = "Returns a greeting message.")]
     [Function(nameof(HttpHelloMe))]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get",
