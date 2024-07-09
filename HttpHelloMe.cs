@@ -1,11 +1,11 @@
-using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
+using System.Net;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
-using System.Net;
-using Microsoft.OpenApi.Models;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums; // Add this using directive
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace PocApiDescFunction;
 
