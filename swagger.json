@@ -14,12 +14,35 @@
     "/hello/{name}": {
       "get": {
         "tags": [
-          "name"
+          "GM"
         ],
         "operationId": "Greeting",
-        "responses": { }
+        "responses": {
+          "200": {
+            "description": "It is always a great day to have a great day!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/hello"
+                }
+              }
+            },
+            "x-ms-summary": "The greeting"
+          }
+        }
       }
     }
   },
-  "components": { }
+  "components": {
+    "schemas": {
+      "hello": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 using System.Net;
-
+using System.Net.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
@@ -18,14 +18,20 @@ public class HttpHelloMe
     }
 
     [Function(nameof(HttpHelloMe))]
-    [OpenApiOperation(operationId: "Greeting", tags: new[] { "name" })]
+    [OpenApiOperation(operationId: "Greeting", tags: ["GM"])]
+    [OpenApiResponseWithBody(
+        statusCode: HttpStatusCode.OK,
+        contentType: MediaTypeNames.Application.Json,
+        bodyType: typeof(Hello),
+        Summary = "The greeting",
+        Description = "It is always a great day to have a great day!")]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get",
             Route = "hello/{name:alpha}")]
         HttpRequest req, string name)
     {
-        _logger.LogInformation("Going to say hello to {name}.", name);
-        return new OkObjectResult(new Hello($"Hello, {name}!"));
+        _logger.LogInformation("Going to say GM to {name}.", name);
+        return new OkObjectResult(new Hello($"GM, {name}!"));
     }
 }
 

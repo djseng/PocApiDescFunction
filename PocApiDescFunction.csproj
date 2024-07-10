@@ -13,6 +13,8 @@
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="1.3.2" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi" Version="1.5.1" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi.CLI" Version="1.0.5-alpha">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.17.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.WorkerService" Version="2.22.0" />
@@ -31,7 +33,7 @@
     <Using Include="System.Threading.ExecutionContext" Alias="ExecutionContext" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec ContinueOnError="True" Command="dotnet azfuncopenapi.dll --project ../../../ --output ../../../ --target net8.0" WorkingDirectory="$(OutputPath)">
+    <Exec ContinueOnError="True" Command="dotnet azfuncopenapi.dll --project $(MSBuildProjectDirectory) --output $(MSBuildProjectDirectory) --target $(TargetFramework)" WorkingDirectory="$(OutputPath)">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
     <Message Importance="high" Text="$(OutputOfExec)" />
