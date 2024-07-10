@@ -1,0 +1,18 @@
+services:
+  dotnet-function-app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=MyDatabase;User=sa;Password=Your_password123;
+    ports:
+      - "80:8080"
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
