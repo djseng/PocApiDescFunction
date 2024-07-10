@@ -1,0 +1,25 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenAPI Document on Azure Functions",
+    "description": "This is the OpenAPI Document on Azure Functions",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost/api"
+    }
+  ],
+  "paths": {
+    "/hello/{name}": {
+      "get": {
+        "tags": [
+          "name"
+        ],
+        "operationId": "Greeting",
+        "responses": { }
+      }
+    }
+  },
+  "components": { }
+}
