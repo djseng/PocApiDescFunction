@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost/api"
+      "url": "https://goodmorning.com/api"
     }
   ],
   "paths": {
