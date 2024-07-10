@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS installer-env
 COPY . /src/dotnet-function-app
 RUN cd /src/dotnet-function-app && \
 mkdir -p /home/site/wwwroot && \
-dotnet nuget add source -n dev /src/dotnet-function-app/nuget && \
+dotnet nuget add source -n dev /src/dotnet-function-app/nuget.d && \
 dotnet publish *.csproj --output /home/site/wwwroot
 
 # To enable ssh & remote debugging on app service change the base image to the one below
