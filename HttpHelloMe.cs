@@ -23,7 +23,7 @@ public class HttpHelloMe
         statusCode: HttpStatusCode.OK,
         contentType: MediaTypeNames.Application.Json,
         bodyType: typeof(Hello),
-        Summary = "The greeting",
+        Summary = "The GM",
         Description = "It is always a great day to have a great day!")]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get",
