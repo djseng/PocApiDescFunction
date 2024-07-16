@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AzureFunctionOpenApiHost>poc-apim-function.azurewebsites.net</AzureFunctionOpenApiHost>
+    <AzureFunctionOpenApiFormat>yaml</AzureFunctionOpenApiFormat>
   </PropertyGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

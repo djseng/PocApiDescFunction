@@ -32,6 +32,9 @@ public class HttpHelloMe
         bodyType: typeof(Hello),
         Description = "It is always a great day to have a great day!",
         Example = typeof(HelloOpenApiExample))]
+    [OpenApiResponseWithoutBody(
+        statusCode: HttpStatusCode.NotFound,
+        Description = "Non alpha name is not allowed.")]
     public IActionResult Run(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get",
             Route = "hello/{name:alpha}")]
@@ -47,6 +50,7 @@ public class NameOpenApiExample : OpenApiExample<string>
     public override IOpenApiExample<string> Build(NamingStrategy? namingStrategy = null)
     {
         Examples.Add(OpenApiExampleResolver.Resolve("name", "John", namingStrategy));
+        Examples.Add(OpenApiExampleResolver.Resolve("name", "Sandy", namingStrategy));
         return this;
     }
 }
