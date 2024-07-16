@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 
 namespace PocApiDescFunction;
 
@@ -19,6 +20,7 @@ public class HttpHelloMe
 
     [Function(nameof(HttpHelloMe))]
     [OpenApiOperation(operationId: "Greeting", tags: ["GM"])]
+    [OpenApiParameter(name: "name", In = ParameterLocation.Path, Required = true, Type = typeof(string), Summary = "The name", Description = "The name of the person.")]
     [OpenApiResponseWithBody(
         statusCode: HttpStatusCode.OK,
         contentType: MediaTypeNames.Application.Json,

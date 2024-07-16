@@ -17,6 +17,18 @@
           "GM"
         ],
         "operationId": "Greeting",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The name of the person.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-ms-summary": "The name"
+          }
+        ],
         "responses": {
           "200": {
             "description": "It is always a great day to have a great day!",
@@ -27,7 +39,7 @@
                 }
               }
             },
-            "x-ms-summary": "The greeting"
+            "x-ms-summary": "The GM"
           }
         }
       }
