@@ -47,9 +47,6 @@ jobs:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
 
-    - name: 'Get Azure Function App Url'
-      run: echo "${{ steps.fa.outputs.app-url }}"
-
     - name: 'Update APIM ${{ env.AZURE_APIM_API_DISPLAY_NAME}}'
       uses: Azure/cli@v1
       with:
@@ -63,6 +60,7 @@ jobs:
           apiId="${{ env.AZURE_APIM_API_ID }}"
           displayName="${{ env.AZURE_APIM_API_DISPLAY_NAME }}"
           apiPath="${{ env.AZURE_APIM_API_PATH }}"
+          serviceUrl="${{ steps.fa.outputs.app-url }}/api"
 
           # List all revisions of the API using az rest
           revisionsJson=$(az rest --method get --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$rg/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId/revisions?api-version=2021-04-01-preview")
@@ -75,5 +73,5 @@ jobs:
 
           echo "Latest revision number is: $latestRevision; Next revision number should be: $nextRevision"
 
-          az apim api import --resource-group $rg --service-name $serviceName --service-url '${{ steps.fa.outputs.app-url }}/api' --api-id $apiId --display-name $displayName --path $apiPath --specification-path swagger.json --specification-format OpenApiJson --protocols 'https' --api-type http --api-revision $nextRevision
+          az apim api import --resource-group $rg --service-name $serviceName --service-url $serviceUrl --api-id $apiId --display-name $displayName --path $apiPath --specification-path swagger.json --specification-format OpenApiJson --protocols 'https' --api-type http --api-revision $nextRevision
           az rest --method patch --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$rg/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId;rev=$nextRevision?api-version=2021-04-01-preview" --body '{"properties": {"isCurrent": true} }'
