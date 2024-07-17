@@ -44,5 +44,5 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          # Set variables for your API Management service
-          az rest --method patch --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$rg/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId;rev=$revision?api-version=2021-04-01-preview" --body '{ "properties": { "isCurrent": true } }'
+          az apim api release create --resource-group $rg --service-name $serviceName --api-id $apiId --api-revision $revision
+

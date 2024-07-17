@@ -68,4 +68,4 @@ jobs:
           echo "Latest revision number is: $latestRevision; Next revision number should be: $nextRevision"
 
           az apim api import --resource-group "$rg" --service-name "$serviceName" --service-url "$serviceUrl" --api-id "$apiId" --display-name "$displayName" --path "$apiPath" --specification-path swagger.json --specification-format OpenApiJson --protocols 'https' --api-type http --api-revision $nextRevision
-          az rest --method patch --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$rg/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId;rev=$nextRevision?api-version=2021-04-01-preview" --body '{ "properties": { "isCurrent": true } }'
+          az apim api release create --resource-group $rg --service-name $serviceName --api-id $apiId --api-revision $nextRevision
