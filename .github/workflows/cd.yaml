@@ -50,11 +50,11 @@ jobs:
     - name: 'Update APIM ${{ env.AZURE_APIM_API_DISPLAY_NAME}}'
       uses: Azure/cli@v1
       env:
-        subscriptionId: $secrets.AZURE_SUBSCRIPTION_ID
-        rg: $env.AZURE_APIM_RG
-        serviceName: $env.AZURE_APIM_NAME
-        apiId: $env.AZURE_APIM_API_ID
-        displayName: $env.AZURE_APIM_API_DISPLAY_NAME
+        subscriptionId: secrets.AZURE_SUBSCRIPTION_ID
+        rg: env.AZURE_APIM_RG
+        serviceName: env.AZURE_APIM_NAME
+        apiId: env.AZURE_APIM_API_ID
+        displayName: env.AZURE_APIM_API_DISPLAY_NAME
         apiPath: env.AZURE_APIM_API_PATH
         serviceUrl: "${{ steps.fa.outputs.app-url }}/api"
       with:
