@@ -1,0 +1,51 @@
+name: Debug
+
+on:
+  [workflow_dispatch]
+
+env:
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'           # set this to the path to your function app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_RG: 'poc-apim-function-rg'  # set this to your function app resource group name on Azure
+  AZURE_FUNCTIONAPP_NAME: 'poc-apim-function'   # set this to your function app name on Azure
+  AZURE_APIM_RG: 'poc-apim-rg'                  # set this to your API Management resource group name on Azure
+  AZURE_APIM_NAME: 'pocapi-apim'                # set this to your API Management service name on Azure
+  DOTNET_VERSION: '8.0.x'                       # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Update APIM hello API'
+      uses: Azure/cli@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          # Set variables for your API Management service
+          subscriptionId="${{ secrets.AZURE_SUBSCRIPTION_ID}}"
+          resourceGroupName="${{ env.AZURE_APIM_RG }}"
+          serviceName="${{ env.AZURE_APIM_NAME}}"
+          apiId="hello-api"
+
+          # List all revisions of the API using az rest
+          revisionsJson=$(az rest --method get --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId/revisions?api-version=2021-04-01-preview")
+
+          # Parse the revision numbers, sort them, and get the highest one
+          latestRevision=$(echo $revisionsJson | jq '[.value[] | .apiRevision | tonumber] | max')
+
+          # Increment the latest revision number by 1
+          nextRevision=$((latestRevision + 1))
+
+          echo "Latest revision number is: $latestRevision; Next revision number should be: $nextRevision"
