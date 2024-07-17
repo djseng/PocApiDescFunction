@@ -42,5 +42,7 @@ public class HttpHelloMe
 
 public record Hello(string Name) 
 {
+    public string GM { get; } = nameof(GM);
+
     public string Message { get; } = $"GM, {Name}!";
 };

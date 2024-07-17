@@ -54,6 +54,9 @@
           "name": {
             "type": "string"
           },
+          "gm": {
+            "type": "string"
+          },
           "message": {
             "type": "string"
           }
