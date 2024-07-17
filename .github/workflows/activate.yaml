@@ -1,0 +1,47 @@
+name: Debug
+
+on:
+  workflow_dispatch:
+    inputs:
+      revision:
+        description: 'The API revision number to activate'
+        required: true
+        default: '1'
+
+env:
+  AZURE_APIM_RG: 'poc-apim-rg'                  # set this to your API Management resource group name on Azure
+  AZURE_APIM_NAME: 'pocapi-apim'                # set this to your API Management service name on Azure
+  AZURE_APIM_API_ID: 'hello-api'                # set this to your API Management API ID
+  AZURE_APIM_API_DISPLAY_NAME: 'Hello API'      # set this to your API Management API display name
+  AZURE_APIM_API_PATH: '/hello'                 # set this to your API Management API path
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  activate:
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Log into Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Get APIM API calculate next revision number'
+      uses: Azure/cli@v1
+      env:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        rg: ${{ env.AZURE_APIM_RG }}
+        serviceName: ${{ env.AZURE_APIM_NAME }}
+        apiId: ${{ env.AZURE_APIM_API_ID }}
+        apiPath: ${{ env.AZURE_APIM_API_PATH }}
+      with:
+        azcliversion: latest
+        inlineScript: |
+          # Set variables for your API Management service
+          az rest --method patch --uri "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$rg/providers/Microsoft.ApiManagement/service/$serviceName/apis/$apiId;rev=$nextRevision?api-version=2021-04-01-preview" --body '{ "properties": { "isCurrent": true } }'
