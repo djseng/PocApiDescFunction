@@ -36,8 +36,11 @@ public class HttpHelloMe
         HttpRequest req, string name)
     {
         _logger.LogInformation("Going to say GM to {name}.", name);
-        return new OkObjectResult(new Hello($"GM, {name}!"));
+        return new OkObjectResult(new Hello(name));
     }
 }
 
-public record Hello(string Message);
+public record Hello(string Name) 
+{
+    public string Message { get; } = $"GM, {Name}!";
+};
