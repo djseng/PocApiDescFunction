@@ -4,9 +4,11 @@ on:
   [push]
 
 env:
-  AZURE_FUNCTIONAPP_RG: 'poc-apim-function-rg'  # set this to your resource group name on Azure
-  AZURE_FUNCTIONAPP_NAME: 'poc-apim-function'   # set this to your function app name on Azure
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'           # set this to the path to your function app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_RG: 'poc-apim-function-rg'  # set this to your function app resource group name on Azure
+  AZURE_FUNCTIONAPP_NAME: 'poc-apim-function'   # set this to your function app name on Azure
+  AZURE_APIM_RG: 'poc-apim-rg'                  # set this to your API Management resource group name on Azure
+  AZURE_APIM_NAME: 'pocapi-apim'                # set this to your API Management service name on Azure
   DOTNET_VERSION: '8.0.x'                       # set this to the dotnet version to use (e.g. '2.1.x', '3.1.x', '5.0.x')
 
 permissions:
@@ -44,3 +46,10 @@ jobs:
 
     - name: 'Get Azure Function App Url'
       run: echo "${{ steps.fa.outputs.app-url }}"
+
+    - name: 'Update APIM hello API'
+      uses: Azure/cli@v1
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az apim api import --resource-group ${{ env.AZURE_APIM_RG }} --service-name ${{ env.AZURE_APIM_NAME }} --service-url '${{ steps.fa.outputs.app-url }}/api' --api-id hello-api --display-name 'Hello API' --path='/hello' --specification-path swagger.json --specification-format OpenApiJson --protocols 'https' --api-type http
