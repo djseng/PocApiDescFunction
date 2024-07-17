@@ -60,7 +60,7 @@ jobs:
           subscriptionId="${{ secrets.AZURE_SUBSCRIPTION_ID}}"
           rg="${{ env.AZURE_APIM_RG }}"
           serviceName="${{ env.AZURE_APIM_NAME }}"
-          apiId="${{ env.AZURE_APIM_API_ID }"
+          apiId="${{ env.AZURE_APIM_API_ID }}"
           displayName="${{ env.AZURE_APIM_API_DISPLAY_NAME }}"
           apiPath="${{ env.AZURE_APIM_API_PATH }}"
 
