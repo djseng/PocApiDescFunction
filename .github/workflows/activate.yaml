@@ -1,4 +1,4 @@
-name: Debug
+name: Activate a Revision
 
 on:
   workflow_dispatch:
